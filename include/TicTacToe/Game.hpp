@@ -14,10 +14,4 @@ private:
 	sf::RenderWindow window;
 
 	Board board;
-
-	sf::Texture x_texture;
-	sf::Texture o_texture;
-
-	sf::Sprite x_sprite;
-	sf::Sprite o_sprite;
 };

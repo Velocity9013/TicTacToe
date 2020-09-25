@@ -14,8 +14,15 @@ public:
 
 
 private:
+	void setTile(char content, int row, int column);
+
 	char board[3][3];
+	sf::Sprite sprites[3][3];
 
 	sf::Texture backgroundTexture;
+	sf::Texture xTexture;
+	sf::Texture oTexture;
+	sf::Texture blankTexture;
+
 	sf::Sprite background;
 };
