@@ -69,17 +69,19 @@ int evaluate(char board[3][3]){
     
     for(int column = 0; column < 3; column++){
         if(board[0][column] == board[1][column] && board[1][column] == board[2][column]){ 
-            if (board[0][column] == 'x') 
+            if (board[0][column] == 'x'){
                 return -10; 
-            else if (board[0][column] == 'o') 
+            }
+            else if (board[0][column] == 'o'){
                 return +10; 
+            }
         }
     }
     
     if(board[0][0] == board[1][1] && board[1][1] == board[2][2]){
         if(board[0][0] == 'x'){
                 return -10;
-            }
+        }
         else if(board[0][0] == 'o'){
             return +10;
         }
@@ -88,7 +90,7 @@ int evaluate(char board[3][3]){
     if(board[0][2] == board[1][1] && board[1][1] == board[2][0]){
         if(board[0][2] == 'x'){
                 return -10;
-            }
+        }
         else if(board[0][2] == 'o'){
             return +10;
         }
