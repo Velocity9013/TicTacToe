@@ -189,7 +189,7 @@ void gameState(char board[3][3]){
     
 }
 
-int main(){
+int old_main(){
     
     srand (time(NULL));
     int playerOrAi = rand() % 2;
@@ -236,4 +236,11 @@ int main(){
             playerOrAi = 0;
         }
     }  
-}   
+}  
+
+#include <TicTacToe/Game.hpp>
+
+int main(){
+    Game game;
+    game.run();
+}
