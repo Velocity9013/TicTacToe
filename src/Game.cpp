@@ -1,7 +1,7 @@
 #include <TicTacToe/Game.hpp>
 
 Game::Game()
-:   window(sf::VideoMode(800, 800), "TicTacToe!")
+:   window(sf::VideoMode(600, 600), "TicTacToe!")
 {
     x_texture.loadFromFile("resources/x.png");
     o_texture.loadFromFile("resources/o.png");
@@ -23,6 +23,7 @@ void Game::run(){
         }
 
         window.clear(sf::Color(240, 240, 255));
+        window.draw(board);
         window.draw(x_sprite);
         window.draw(o_sprite);
         window.display();
