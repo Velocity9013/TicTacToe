@@ -2,7 +2,10 @@
 
 Game::Game()
 :   window(sf::VideoMode(600, 600), "TicTacToe!")
-{}
+{
+    srand (time(NULL));
+    playerOrAi = rand() % 2;
+}
 
 void Game::run(){
     while(window.isOpen()){
@@ -14,7 +17,10 @@ void Game::run(){
             }
 
             if(event.type == sf::Event::MouseButtonPressed){
-                board.makeMove(0, event.mouseButton.y / 200, event.mouseButton.x / 200);
+                board.makeMove(playerOrAi, event.mouseButton.y / 200, event.mouseButton.x / 200);
+                playerOrAi = !playerOrAi;
+
+                board.getResult();
             }
         }
 

@@ -9,6 +9,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void reset();
 	void makeMove(int player, int row, int column);
+	void getResult(); 
 	bool isFull() const; 
 	int evaluateWinner() const;
 

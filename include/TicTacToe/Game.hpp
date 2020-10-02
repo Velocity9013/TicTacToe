@@ -14,4 +14,6 @@ private:
 	sf::RenderWindow window;
 
 	Board board;
+
+	int playerOrAi;
 };
