@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
+
 class Game{
 public:
 	Game();
@@ -16,4 +17,6 @@ private:
 	Board board;
 
 	int playerOrAi;
+
+	std::pair<int, int> makeAiMove;
 };

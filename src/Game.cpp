@@ -1,5 +1,6 @@
 #include <TicTacToe/Game.hpp>
 
+#include <iostream>
 Game::Game()
 :   window(sf::VideoMode(600, 600), "TicTacToe!")
 {
@@ -16,11 +17,19 @@ void Game::run(){
                 break;
             }
 
-            if(event.type == sf::Event::MouseButtonPressed){
-                board.makeMove(playerOrAi, event.mouseButton.y / 200, event.mouseButton.x / 200);
-                playerOrAi = !playerOrAi;
+            if(playerOrAi){
+                if(event.type == sf::Event::MouseButtonPressed){
+                    board.makeMove(playerOrAi, event.mouseButton.y / 200, event.mouseButton.x / 200);
+                    playerOrAi = !playerOrAi;
+                    std::cout << playerOrAi << std::endl;
+                }
+            }
 
+            else if(!playerOrAi){
+                board.aiOptimalMove(makeAiMove);
+                playerOrAi = !playerOrAi;
                 board.getResult();
+                std::cout << playerOrAi << std::endl;
             }
         }
 

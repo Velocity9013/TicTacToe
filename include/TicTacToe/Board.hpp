@@ -12,7 +12,8 @@ public:
 	void getResult(); 
 	bool isFull() const; 
 	int evaluateWinner() const;
-
+	int minimax(bool depth, bool maximizingPlayer);
+	void aiOptimalMove(std::pair<int, int> makeAiMove);
 
 private:
 	void setTile(char content, int row, int column);

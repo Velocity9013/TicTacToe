@@ -1,4 +1,5 @@
 #include <TicTacToe/Board.hpp>
+
 #include <iostream>
 
 Board::Board()
@@ -30,27 +31,42 @@ void Board::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Board::setTile(char content, int row, int column)
 {
-	board[row][column] = content;
+    if(board[row][column] == '-'){
+        (content == 'x') ? board[row][column] = 'x' : board[row][column] = 'o';
+        sprites[row][column].setTexture((content == 'x') ? xTexture : oTexture, true);
+    }
 	if(content == '-'){
 		sprites[row][column].setTexture(blankTexture, true);
-	}
-	else{
-		sprites[row][column].setTexture((content == 'x') ? xTexture : oTexture, true);
 	}
 }
 
 void Board::getResult()
 {
-	int value = evaluateWinner();
+	
+    int counter = 0;
+    for(int row = 0; row < 3; row++){
+        for(int column = 0; column < 3; column++){
+            counter++;
+            std::cout << " | " << board[row][column];
 
-    if((isFull() && value == 0) || value == -10 || value == 10){
-        if(isFull() && value == 0){
+            if(counter % 3 == 0){
+                std::cout << " | " << std::endl;
+            }
+        }
+    }
+    
+    int evaluateScore = evaluateWinner();
+    
+    std::cout << evaluateScore << std::endl;
+
+    if((isFull() && evaluateScore == 0) || evaluateScore == -10 || evaluateScore == 10){
+        if(isFull() && evaluateScore == 0){
             std::cout << "Tie!" << std::endl;
         }
-        else if(value == -10){
+        else if(evaluateScore == -10){
             std::cout << "Player Wins!" << std::endl;
         }
-        else if(value == +10){
+        else if(evaluateScore == +10){
             std::cout << "Ai Wins!" << std::endl;
         }
         std::cout << "Game Reset" << std::endl << std::endl;
@@ -62,6 +78,7 @@ void Board::reset()
 {
 	for(int row = 0; row < 3; row++){
         for(int column = 0; column < 3; column++){
+            board[row][column] = '-';
             setTile('-', row, column);
         }
     }
@@ -69,7 +86,7 @@ void Board::reset()
 
 void Board::makeMove(int player, int row, int column)
 {
-	setTile((player == 0) ? 'x' : 'o', row, column);
+	setTile((player == 0) ? 'o' : 'x', row, column);
 }
 
 bool Board::isFull() const
@@ -127,4 +144,71 @@ int Board::evaluateWinner() const
     }
     
     return 0;
+}
+
+int Board::minimax(bool depth, bool maximizingPlayer)
+{
+    int evaluateScore = evaluateWinner();
+    if(evaluateScore == 10 || evaluateScore == -10){
+        return evaluateScore;
+    }
+
+    if(isFull() && evaluateScore == 0){
+        return 0;
+    }
+    
+    if(maximizingPlayer){
+        int value = std::numeric_limits<int>::max() * -1;
+
+        for(int row = 0; row < 3; row++){
+            for(int column = 0; column < 3; column++){
+                //checking for all possibilities
+                if(board[row][column] == '-'){
+                    board[row][column] = 'o';
+                    value = std::max(value, minimax(depth + 1, !maximizingPlayer));
+                    board[row][column] = '-';
+                }
+            }
+        }
+        return value;
+    }
+    else{
+        int value = std::numeric_limits<int>::max();
+        
+        for(int row = 0; row < 3; row++){
+            for(int column = 0; column < 3; column++){
+                //checking for all possibilities
+                if(board[row][column] == '-'){
+                    board[row][column] = 'x';
+                    value = std::min(value, minimax(depth + 1, !maximizingPlayer));
+                    board[row][column] = '-';
+                }
+            }
+        }
+        return value;
+    }
+}
+
+void Board::aiOptimalMove(std::pair<int, int> makeAiMove){
+    int value = std::numeric_limits<int>::max() * - 1;
+
+    makeAiMove = std::make_pair(-1, -1);
+    
+    for(int row = 0; row < 3; row++){
+        for(int column = 0; column < 3; column++){
+            if(board[row][column] == '-'){
+                board[row][column] = 'o';
+                int tempValue = minimax(0, false);
+                board[row][column] = '-';
+
+                if(value < tempValue){   
+                    makeAiMove.first = row;
+                    makeAiMove.second = column;
+                    value = tempValue; 
+                }   
+            }
+        }
+    }
+    
+    setTile(1, makeAiMove.first, makeAiMove.second);
 }
